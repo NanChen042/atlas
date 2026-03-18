@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f5f5f5;
+    --color-surface-hover: #eeeeee;
+    --color-border: #e5e5e5;
+    --color-text-primary: #171717;
+    --color-text-secondary: #737373;
+    --color-text-muted: #a3a3a3;
+    --color-accent: #6366f1;
+    --color-accent-hover: #4f46e5;
+    --color-danger: #ef4444;
+    --color-danger-hover: #dc2626;
+}
+
+/* ── Base ── */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d4d4d4;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a3a3a3;
+}
+
+/* ── Dark Mode ── */
+.dark {
+    --color-surface: #0a0a0a;
+    --color-surface-alt: #171717;
+    --color-surface-hover: #262626;
+    --color-border: #262626;
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #a3a3a3;
+    --color-text-muted: #525252;
+    --color-accent: #818cf8;
+    --color-accent-hover: #6366f1;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #404040;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #525252;
+}
+
+/* ── Focus Ring ── */
+*:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* ── Transition Classes ── */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.15s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.slide-enter-from {
+    transform: translateY(-8px);
+    opacity: 0;
+}
+
+.slide-leave-to {
+    transform: translateY(8px);
+    opacity: 0;
+}
+
+/* ── AI Floating Action Button ── */
+.ai-fab {
+    animation: ai-fab-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes ai-fab-in {
+    from {
+        opacity: 0;
+        transform: scale(0.5) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.ai-fab::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1, #8b5cf6);
+    background-size: 200% 200%;
+    animation: ai-border-glow 3s ease-in-out infinite;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+@keyframes ai-border-glow {
+    0%, 100% {
+        background-position: 0% 50%;
+        opacity: 0.3;
+    }
+    50% {
+        background-position: 100% 50%;
+        opacity: 0.6;
+    }
+}
+
+/* ── Page Transitions ── */
+.page-enter-active {
+    animation: page-in 0.35s ease-out;
+}
+
+@keyframes page-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Card Hover Effect ── */
+section[class*="rounded-2xl"] {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+section[class*="rounded-2xl"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.dark section[class*="rounded-2xl"]:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ── List Item Stagger Animation ── */
+@keyframes list-item-in {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Shimmer Loading Effect ── */
+.shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--color-surface-alt) 25%,
+        var(--color-surface-hover) 50%,
+        var(--color-surface-alt) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ── Modal Entry ── */
+@keyframes modal-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ── Pulse Ring ── */
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+}
