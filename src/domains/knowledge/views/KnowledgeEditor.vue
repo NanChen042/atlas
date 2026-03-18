@@ -177,10 +177,10 @@ async function runAIAction(key: string) {
   if (!content.trim()) return
 
   aiActionLoading.value = true
-  const prompt = AI_PROMPTS[key]
+  const prompt = AI_PROMPTS[key] ?? ''
 
   if (key === 'tags') {
-    const result = await aiStore.runQuickAction(prompt, content, () => {})
+    const result = await aiStore.runQuickAction(prompt || '', content, () => {})
     if (result && !result.startsWith('⚠️')) {
       const tags = result.split(/[,，、\s]+/).map(t => t.trim()).filter(Boolean)
       const merged = [...new Set([...store.current.tags, ...tags])]
@@ -192,7 +192,7 @@ async function runAIAction(key: string) {
 
   if (key === 'summarize') {
     let summary = ''
-    await aiStore.runQuickAction(prompt, content, (chunk) => { summary += chunk })
+    await aiStore.runQuickAction(prompt || '', content, (chunk) => { summary += chunk })
     if (summary && !summary.startsWith('⚠️')) {
       const separator = '\n\n---\n\n## AI 总结\n\n'
       if (store.current) {
@@ -205,7 +205,7 @@ async function runAIAction(key: string) {
   }
 
   if (key === 'continue') {
-    await aiStore.runQuickAction(prompt, content, (chunk) => {
+    await aiStore.runQuickAction(prompt || '', content, (chunk) => {
       if (store.current) {
         store.current.content += chunk
       }
@@ -217,7 +217,7 @@ async function runAIAction(key: string) {
 
   if (key === 'improve') {
     let improved = ''
-    await aiStore.runQuickAction(prompt, content, (chunk) => { improved += chunk })
+    await aiStore.runQuickAction(prompt || '', content, (chunk) => { improved += chunk })
     if (improved && !improved.startsWith('⚠️') && store.current) {
       store.current.content = improved
       scheduleSave({ content: improved })

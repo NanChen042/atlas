@@ -312,7 +312,7 @@ function renderMarkdown(text: string): string {
     const ul = trimmed.match(/^[-*] (.+)$/)
     if (ul) {
       if (!inList) { out.push('<ul class="ai-ul">'); inList = true }
-      out.push(`<li class="ai-li">${inlineFormat(ul[1])}</li>`)
+      out.push(`<li class="ai-li">${inlineFormat(ul[1]!)}</li>`)
       continue
     }
 
@@ -320,7 +320,7 @@ function renderMarkdown(text: string): string {
     const ol = trimmed.match(/^\d+\.\s+(.+)$/)
     if (ol) {
       if (!inList) { out.push('<ol class="ai-ol-list">'); inList = true }
-      out.push(`<li class="ai-li ai-ol">${inlineFormat(ol[1])}</li>`)
+      out.push(`<li class="ai-li ai-ol">${inlineFormat(ol[1]!)}</li>`)
       continue
     }
 
@@ -334,8 +334,8 @@ function renderMarkdown(text: string): string {
   let html = out.join('')
 
   // 6. Restore placeholders
-  html = html.replace(/\x00CB(\d+)\x00/g, (_m, i) => codeBlocks[parseInt(i)])
-  html = html.replace(/\x00IC(\d+)\x00/g, (_m, i) => inlineCodes[parseInt(i)])
+  html = html.replace(/\x00CB(\d+)\x00/g, (_m, i) => codeBlocks[parseInt(i)] ?? '')
+  html = html.replace(/\x00IC(\d+)\x00/g, (_m, i) => inlineCodes[parseInt(i)] ?? '')
 
   return html
 }

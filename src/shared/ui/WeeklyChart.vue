@@ -47,6 +47,6 @@ function barHeight(value: number): string {
 function dayLabel(dateStr: string): string {
   const d = new Date(dateStr + 'T00:00:00')
   const days = ['日', '一', '二', '三', '四', '五', '六']
-  return days[d.getDay()]
+  return days[d.getDay()]!
 }
 </script>
